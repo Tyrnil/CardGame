@@ -1,0 +1,16 @@
+[
+	{
+		"id": "1",
+		"name": "Kebab",
+		"attack": "1200",
+		"health": "1400",
+		"img": "app/img/img1.png"
+	},
+	{
+		"id": "2",
+		"name": "Salade",
+		"attack": "600",
+		"health": "600",
+		"img": "app/img/img1.png"
+	}
+]
