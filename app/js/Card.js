@@ -10,6 +10,7 @@ class Card extends Phaser.Sprite {
 		this.type = type
 		this.img = imgName
 		this.player = player
+		this.state = 'DECK'
 		this.attackText = null
 		this.currentHealthText = null
 

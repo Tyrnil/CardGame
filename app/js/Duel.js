@@ -39,88 +39,73 @@ class Duel extends Phaser.State {
 		this.player2TerrainGroup = this.game.add.group()
 
 		//Dessine les mains des 2 joueurs
-		this._draw_hand_player(this.game.player1, this.player1HandGroup)
-		this._draw_hand_player(this.game.player2, this.player2HandGroup)
-
-		//Positionne la main du joueur 1 correctement sur l'écran
-		this.player1HandGroup.x = this.world.centerX - (this.player1HandGroup.width * 0.5)
-		this.player1HandGroup.y = this.game.height - this.player1HandGroup.height
-
-		//Positionne le terrain de jeu du joueur 1 correctement sur l'écran
-		this.player1TerrainGroup.x = this.world.centerX - (this.player1TerrainGroup.width * 0.5)
-		this.player1TerrainGroup.y = this.game.height - (this.player1TerrainGroup.height + this.player1HandGroup.height)
-
-		//Positionne la main du joueur 2 correctement sur l'écran
-		this.player2HandGroup.x = this.world.centerX - (this.player2HandGroup.width * 0.5)
-
-		//Positionne le terrain de jeu du joueur 2 correctement sur l'écran
-		this.player2TerrainGroup.x = this.world.centerX - (this.player2TerrainGroup.width * 0.5)
-		this.player2TerrainGroup.y = this.player2HandGroup.height
+		this._drawHandPlayer(this.game.player1, this.player1HandGroup)
+		this._drawHandPlayer(this.game.player2, this.player2HandGroup)
 
 		//Dessine le text des cartes
-		this._draw_hand_text(this.player1HandGroup)
-		this._draw_hand_text(this.player2HandGroup)
+		this._createCardText(this.player1HandGroup)
+		this._createCardText(this.player2HandGroup)
 
 		//Dessine le texte génaral du jeu
-		this._create_game_text()
+		this._createGameText()
+
+		this.player1TerrainGroup.add(this.player1HandGroup.children[0])
 	}
 
 	update () {
-		//Dessine les mains des 2 joueurs
-		this._draw_hand_player(this.game.player1, this.player1HandGroup)
-		this._draw_hand_player(this.game.player2, this.player2HandGroup)
+		//Dessine les cartes
+		this._updateCardGroup(this.player1HandGroup)
+		this._updateCardGroup(this.player1TerrainGroup)
+		this._updateCardGroup(this.player2HandGroup)
+		this._updateCardGroup(this.player2TerrainGroup)
 
 		//Positionne la main du joueur 1 correctement sur l'écran
 		this.player1HandGroup.x = this.world.centerX - (this.player1HandGroup.width * 0.5)
-		this.player1HandGroup.y = this.game.height - this.player1HandGroup.height
+		this.player1HandGroup.y = 1140
 
 		//Positionne le terrain de jeu du joueur 1 correctement sur l'écran
 		this.player1TerrainGroup.x = this.world.centerX - (this.player1TerrainGroup.width * 0.5)
-		this.player1TerrainGroup.y = this.game.height - (this.player1TerrainGroup.height + this.player1HandGroup.height)
+		this.player1TerrainGroup.y = 760
 
 		//Positionne la main du joueur 2 correctement sur l'écran
 		this.player2HandGroup.x = this.world.centerX - (this.player2HandGroup.width * 0.5)
 
 		//Positionne le terrain de jeu du joueur 2 correctement sur l'écran
 		this.player2TerrainGroup.x = this.world.centerX - (this.player2TerrainGroup.width * 0.5)
-		this.player2TerrainGroup.y = this.player2HandGroup.height
+		this.player2TerrainGroup.y = 380
 
-		//this._update_card_text(this.player1HandGroup)
-		//this._update_card_text(this.player2HandGroup)
+		this._updateCardText(this.player1HandGroup)
+		this._updateCardText(this.player1TerrainGroup)
+		this._updateCardText(this.player2HandGroup)
+		this._updateCardText(this.player2TerrainGroup)
 	}
 
-	_create_game_text () {
+	_createGameText () {
 		let style = { font: '32px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
 
 		this.onScreenText = {
 			player1Info: this.game.add.text(20, this.game.height - 52,  'Player1: ' + this.game.player1.name, style),
-			player2Info: this.game.add.text(20, 20,  'Player2: ' + this.game.player2.name, style)
+			player1Energy: this.game.add.text(this.game.width - 250, this.game.height - 52, 'Energy: ' + this.game.player1.energy, style),
+			player2Info: this.game.add.text(20, 20,  'Player2: ' + this.game.player2.name, style),
+			player2Energy: this.game.add.text(this.game.width - 250, 20, 'Energy: ' + this.game.player2.energy, style)
 		}
 	}
 
-	_draw_hand_player (player, group) {
+	_drawHandPlayer (player, group) {
 		for (let i in player.hand) {
-			for (let j in player.cardDeck) {
-				if ((player.cardDeck[j].id === player.hand[i]) && (player.cardDeck[j].visible == false)) {
-					player.cardDeck[j].visible = true
-					player.cardDeck[j].x = i * player.cardDeck[j].width
-					player.cardDeck[j].y = 0
+			player.hand[i].visible = true
+			player.hand[i].x = i * player.hand[i].width
+			player.hand[i].y = 0
 
-					player.cardDeck[j].input.enableDrag()
-					player.cardDeck[j].events.onDragStart.add(this._on_card_drag_start, this)
-    				player.cardDeck[j].events.onDragStop.add(this._on_card_drag_end, this)
-					player.cardDeck[j].events.onInputDown.add(this._on_card_click, player.cardDeck[j])
+			player.hand[i].input.enableDrag()
+			player.hand[i].events.onDragStart.add(this._on_card_drag_start, this)
+			player.hand[i].events.onDragStop.add(this._on_card_drag_end, this)
 
-					group.add(player.cardDeck[j])
-
-					break
-				}
-			}
+			group.add(player.hand[i])
 		}
-
 	}
 
-	_draw_hand_text (group) {
+	_createCardText (group) {
 		let style = { font: '24px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
 
 		for (let i in group.children) {
@@ -134,30 +119,27 @@ class Duel extends Phaser.State {
 		}
 	}
 
-	_on_card_click () {
-	}
-
 	_on_card_drag_start (card, pointer) {
-		this.player1HandGroup.remove(card, false, false)
-		card.startPos = { x:card.x, y:card.y }
+		this.game.world.add(card)
 	}
 
 	_on_card_drag_end (card, pointer) {
 		if (utils.checkOverlap(card, this.game.handPlayer1HitBox) || utils.checkOverlap(card, this.game.handPlayer2HitBox)){
-			card.x = card.startPos.x
-			card.y = card.startPos.y
-			this.player1HandGroup.add(card)
+			if (card.player === 'player1')
+				this.player1HandGroup.add(card)
+			else if (card.player === 'player2')
+				this.player2HandGroup.add(card)
 		}
 		else {
-			this.player1TerrainGroup.add(card)
-			card.x = (this.player1TerrainGroup.children.length * card.width)
-			card.y = 0
-			card.input.enableDrag()
+			if (card.player === 'player1')
+				this.player1TerrainGroup.add(card)
+			else if (card.player === 'player2')
+				this.player2TerrainGroup.add(card)
 		}
 
 	}
 
-	_update_card_text (group) {
+	_updateCardText (group) {
 		for (let i in group.children) {
 			group.children[i].currentHealthText.text = group.children[i].currentHealth
 
@@ -167,7 +149,13 @@ class Duel extends Phaser.State {
 			group.children[i].attackText.x = group.children[i].world.x
 			group.children[i].attackText.y = group.children[i].world.y
 		}
+	}
 
+	_updateCardGroup (group) {
+		for (let i in group.children) {
+			group.children[i].x = i * group.children[i].width
+			group.children[i].y = 0
+		}
 	}
 }
 

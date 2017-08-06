@@ -14,11 +14,7 @@ class Player {
 	}
 
 	init () {
-		this.currentDeck = []
-
-		for (let i in this.deck)
-			this.currentDeck.push(this.deck[i])
-
+		this.currentDeck = this.cardDeck
 		this.hand = []
 		this.usedCards = []
 		this.cardInPlay = []
@@ -27,9 +23,13 @@ class Player {
 	drawCard () {
 		if (this.currentDeck.length === 0)
 			return -1
+
 		let pull = Math.floor(utils.getRandomArbitrary(0, this.currentDeck.length))
+
+		this.currentDeck[pull].state = 'HAND'
 		this.hand.push(this.currentDeck[pull])
 		this.currentDeck.splice(pull, 1)
+
 		return 1
 	}
 }
