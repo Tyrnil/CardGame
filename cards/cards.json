@@ -6,6 +6,7 @@
 		"health": "1400",
 		"rank": "2",
 		"type": "monster",
+		"nature": "Bouffe",
 		"img": "app/img/img1.png"
 	},
 	{
@@ -13,6 +14,9 @@
 		"name": "Salade",
 		"attack": "600",
 		"health": "600",
+		"rank": "1",
+		"type": "monster",
+		"nature": "Bouffe",
 		"img": "app/img/img1.png"
 	}
 ]

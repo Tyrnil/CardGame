@@ -1,5 +1,5 @@
 class Card extends Phaser.Sprite {
-	constructor (game, id, name, attack, health, rank, type, img, imgName, player) {
+	constructor (game, id, name, attack, health, rank, type, nature, img, imgName, player) {
 		super(game, 0, 0, 'img_card_1')
 		this.id = id
 		this.name = name
@@ -8,6 +8,7 @@ class Card extends Phaser.Sprite {
 		this.currentHealth = health
 		this.rank = rank
 		this.type = type
+		this.nature = nature
 		this.img = imgName
 		this.player = player
 		this.attackText = null

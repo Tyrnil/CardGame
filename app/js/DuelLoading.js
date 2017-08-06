@@ -104,7 +104,7 @@ class DuelLoading extends Phaser.State {
 		for (let i in cardDeck)
 			deck.push(new Card(this.game, cardDeck[i].id, cardDeck[i].name,
 				cardDeck[i].attack, cardDeck[i].health, cardDeck[i].rank,
-				cardDeck[i].type, 'img_card_' + cardDeck[i].id, cardDeck[i].img, player))
+				cardDeck[i].type, cardDeck[i].nature 'img_card_' + cardDeck[i].id, cardDeck[i].img, player))
 		return deck
 	}
 }
