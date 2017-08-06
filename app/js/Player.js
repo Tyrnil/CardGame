@@ -8,6 +8,9 @@ class Player {
 		this.currentDeck = []
 		this.hand = []
 		this.usedCards = []
+		this.cardInPlay = []
+		this.energy = 0
+		this.energyEarnedLastTurn = 0
 	}
 
 	init () {
@@ -18,6 +21,7 @@ class Player {
 
 		this.hand = []
 		this.usedCards = []
+		this.cardInPlay = []
 	}
 
 	drawCard () {

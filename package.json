@@ -1,8 +1,11 @@
 {
-  "name"    : "CARDGAME",
-  "version" : "0.1.0",
-  "main"    : "app/main.js",
-  "scripts"  : {
-      "start" : "./node_modules/.bin/electron ."
+  "name": "CARDGAME",
+  "version": "0.1.0",
+  "main": "app/main.js",
+  "scripts": {
+    "start": "./node_modules/.bin/electron ."
+  },
+  "devDependencies": {
+    "electron": "^1.6.11"
   }
 }

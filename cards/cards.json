@@ -4,6 +4,8 @@
 		"name": "Kebab",
 		"attack": "1200",
 		"health": "1400",
+		"rank": "2",
+		"type": "monster",
 		"img": "app/img/img1.png"
 	},
 	{

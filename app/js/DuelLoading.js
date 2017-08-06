@@ -28,8 +28,8 @@ class DuelLoading extends Phaser.State {
 		let text = this.game.add.text(0, 0,  'LOADING', style)
 		text.setTextBounds(0, (this.game.height/2) - 100, this.game.width, 100)
 
-		this.game.player1.cardDeck = this._instanciate_cards(this.game.player1.cardDeck)
-		this.game.player2.cardDeck = this._instanciate_cards(this.game.player2.cardDeck)
+		this.game.player1.cardDeck = this._instanciate_cards(this.game.player1.cardDeck, "player1")
+		this.game.player2.cardDeck = this._instanciate_cards(this.game.player2.cardDeck, "player2")
 
 		setTimeout(() => {
 			this.game.state.start('duel')
@@ -99,10 +99,12 @@ class DuelLoading extends Phaser.State {
 
 	}
 
-	_instanciate_cards (cardDeck) {
+	_instanciate_cards (cardDeck, player) {
 		let deck = []
 		for (let i in cardDeck)
-			deck.push(new Card(this.game, cardDeck[i].id, cardDeck[i].name, cardDeck[i].attack, cardDeck[i].health, 'img_card_' + cardDeck[i].id, cardDeck[i].img))
+			deck.push(new Card(this.game, cardDeck[i].id, cardDeck[i].name,
+				cardDeck[i].attack, cardDeck[i].health, cardDeck[i].rank,
+				cardDeck[i].type, 'img_card_' + cardDeck[i].id, cardDeck[i].img, player))
 		return deck
 	}
 }
