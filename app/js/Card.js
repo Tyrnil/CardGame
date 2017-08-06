@@ -11,6 +11,7 @@ class Card extends Phaser.Sprite {
 		this.nature = nature
 		this.img = imgName
 		this.player = player
+		this.state = 'DECK'
 		this.attackText = null
 		this.currentHealthText = null
 
