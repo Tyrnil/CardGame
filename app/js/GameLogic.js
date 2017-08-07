@@ -1,19 +1,20 @@
 function checkInvokCard (card, player){
-	if (player.cardInPlay.length )
-  else if (card.nature === "monster")
-    return checkInvokCardMonster(card, player);
-  else if (card.nature === "magic")
-    return checkInvokCardMagic(card, player);
+	if (player.cardInPlay.length >= 5)
+		return false
+	else if (card.nature === "monster")
+		return checkInvokCardMonster(card, player);
+	else if (card.nature === "magic")
+		return checkInvokCardMagic(card, player);
 }
 
 function checkInvokCardMonster (card, player) {
 	if (card.rank <= 2)
 		return true;
-	else if ((card.rank <= 5) && (cardInPlay.length >= 1))
+	else if ((card.rank <= 5) && (player.cardInPlay.length >= 1))
 		return true;
-	else if ((card.rank <= 7) && (cardInPlay.length >= 2))
+	else if ((card.rank <= 7) && (player.cardInPlay.length >= 2))
 		return true;
-	else if ((card.rank >= 8) && (cardInPlay.length >= 3))
+	else if ((card.rank >= 8) && (player.cardInPlay.length >= 3))
 		return true;
 	return false;
 }
@@ -25,8 +26,8 @@ function checkInvokCardMagic (card, player) {
 }
 
 function invok (card, selectedCard) {
+	card.state = "PLAY";
 	if (card.nature === "monster") {
-		card.state = "PLAY";
 		if (card.rank <= 2)
 			return 0;
 		return invokBySacrifice(card, selectedCard);
@@ -42,7 +43,10 @@ function invokBySacrifice (card, selectedCard){
 			bonus = bonus + 1;
 		else if (typeCheck(card.type, selectedCard[i].type) === -1)
 			malus += 1;
+
 		energy += sacrificeCheck(selectedCard[i]);
+
+		selectedCard[i].state = 'DEAD'
 	}
 	if (bonus === selectedCard.length){
 		card.attack += (card.attack * (20/100))
@@ -70,15 +74,21 @@ function sacrificeCheck(card){
 }
 
 function attackPhase(cardAtk, cardDef){
-	if (cardDef.nature === "monster"){
+	if (cardDef.nature === "monster") {
 		let mult = typeCheck(cardAtk.type, cardDef.type);
 		let atk = cardAtk.attack;
 		if (mult === 1)
 			atk += (atk * (20/100));
 		else if (mult === -1)
 			atk += (atk * (20/100));
-		cardDef.currentHealt -= atk;
+		cardDef.currentHealth -= atk;
+
+		if (cardDef.currentHealth > 0)
+			cardAtk.currentHealth -= cardDef.attack
+		else
+			return sacrificeCheck(cardDef) + 1
 	}
+	return 0
 }
 
 function deadCard(group){

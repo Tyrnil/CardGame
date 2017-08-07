@@ -1,7 +1,7 @@
 const utils = require('./utils')
 
 class Player {
-	constructor (deck = ['1', '1', '1'], name = 'Jean') {
+	constructor (deck = ['1', '1', '1', '2'], name = 'Jean') {
 		this.deck = deck
 		this.cardDeck = null
 		this.name = name
@@ -24,15 +24,26 @@ class Player {
 
 	drawCard () {
 		if (this.currentDeck.length === 0)
-			return -1
+			return null
 
 		let pull = Math.floor(utils.getRandomArbitrary(0, this.currentDeck.length))
 
-		this.currentDeck[pull].state = 'HAND'
-		this.hand.push(this.currentDeck[pull])
+		let card = this.currentDeck[pull]
+
+		card.state = 'HAND'
+		this.hand.push(card)
 		this.currentDeck.splice(pull, 1)
 
-		return 1
+		return card
+	}
+
+	hasBeenInvoked () {
+		for (let i in this.hand) {
+			if (this.hand[i].state === 'PLAY') {
+				this.cardInPlay.push(this.hand[i])
+				this.hand.splice(i, 1)
+			}
+		}
 	}
 
 	checkDeadCards () {
@@ -42,6 +53,13 @@ class Player {
 				this.cardInPlay.splice(i, 1)
 			}
 		}
+	}
+
+	setEnergy () {
+		this.energy = 4 + this.energyEarnedLastTurn
+		if (this.energy > 12)
+			this.energy = 12
+		this.energyEarnedLastTurn = 0
 	}
 }
 

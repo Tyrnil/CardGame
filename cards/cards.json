@@ -4,7 +4,7 @@
 		"name": "Kebab",
 		"attack": "1200",
 		"health": "1400",
-		"rank": "2",
+		"rank": "3",
 		"type": "Bouffe",
 		"nature": "monster",
 		"img": "app/img/img1.png"

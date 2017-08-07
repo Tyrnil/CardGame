@@ -16,6 +16,8 @@ class DuelLoading extends Phaser.State {
 		console.log('Canvas WIDTH: ',$('#main').width(), ' - HEIGHT: ', $('#main').height(), '\nGame WIDTH: ', this.game.width, ' - HEIGHT: ', this.game.height)
 
 		this._load_deck_imgs(this.game.player1.deck, this.game.player2.deck)
+
+		this.game.load.spritesheet('button', '../cards/img/button.png', 400, 200)
 	}
 
 	create () {
