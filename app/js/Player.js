@@ -11,6 +11,7 @@ class Player {
 		this.cardInPlay = []
 		this.energy = 0
 		this.energyEarnedLastTurn = 0
+		this.deadCards = []
 	}
 
 	init () {
@@ -18,6 +19,7 @@ class Player {
 		this.hand = []
 		this.usedCards = []
 		this.cardInPlay = []
+		this.deadCards = []
 	}
 
 	drawCard () {
@@ -31,6 +33,15 @@ class Player {
 		this.currentDeck.splice(pull, 1)
 
 		return 1
+	}
+
+	checkDeadCards () {
+		for (let i in this.cardInPlay) {
+			if (this.cardInPlay[i].state === "DEAD") {
+				this.deadCards.push(this.cardInPlay[i]);
+				this.cardInPlay.splice(i, 1)
+			}
+		}
 	}
 }
 

@@ -1,4 +1,5 @@
 const utils = require('./utils')
+const GameLogic = require('./GameLogic')
 
 class Duel extends Phaser.State {
 

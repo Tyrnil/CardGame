@@ -5,8 +5,8 @@
 		"attack": "1200",
 		"health": "1400",
 		"rank": "2",
-		"type": "monster",
-		"nature": "Bouffe",
+		"type": "Bouffe",
+		"nature": "monster",
 		"img": "app/img/img1.png"
 	},
 	{
@@ -15,8 +15,8 @@
 		"attack": "600",
 		"health": "600",
 		"rank": "1",
-		"type": "monster",
-		"nature": "Bouffe",
+		"type": "Bouffe",
+		"nature": "monster",
 		"img": "app/img/img1.png"
 	}
 ]
