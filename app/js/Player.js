@@ -10,6 +10,7 @@ class Player {
 		this.usedCards = []
 		this.cardInPlay = []
 		this.energy = 0
+		this.lifePoint = 0
 		this.energyEarnedLastTurn = 0
 		this.deadCards = []
 	}
@@ -20,6 +21,7 @@ class Player {
 		this.usedCards = []
 		this.cardInPlay = []
 		this.deadCards = []
+		this.lifePoint = 8000
 	}
 
 	drawCard () {

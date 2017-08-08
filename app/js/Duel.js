@@ -94,8 +94,10 @@ class Duel extends Phaser.State {
 		this.onScreenText = {
 			player1Info: this.game.add.text(20, this.game.height - 52,  'Player1: ' + this.game.player1.name, style),
 			player1Energy: this.game.add.text(this.game.width - 250, this.game.height - 52, 'Energy: ' + this.game.player1.energy, style),
+			player1LifePoint: this.game.add.text(this.game.width - 750, this.game.height - 52, 'Life Point: ' + this.game.player1.lifePoint, style),
 			player2Info: this.game.add.text(20, 20,  'Player2: ' + this.game.player2.name, style),
 			player2Energy: this.game.add.text(this.game.width - 250, 20, 'Energy: ' + this.game.player2.energy, style),
+			player2LifePoint: this.game.add.text(this.game.width - 750, 20, 'Life Point: ' + this.game.player2.lifePoint, style),
 			debug: this.game.add.text(20, 250, 'Debug:\nfps: ' + this.game.time.fps + '\nplayerTurn: ' + this.playerTurn + '\nduelState: ' + this.duelState, style)
 		}
 	}
@@ -104,7 +106,9 @@ class Duel extends Phaser.State {
 		let style = { font: '32px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
 
 		this.onScreenText.player1Energy.text = 'Energy: ' + this.game.player1.energy
+		this.onScreenText.player1LifePoint.text = 'Life Point: ' + this.game.player1.lifePoint
 		this.onScreenText.player2Energy.text = 'Energy: ' + this.game.player2.energy
+		this.onScreenText.player2LifePoint.text = 'Life Point: ' + this.game.player2.lifePoint
 		this.onScreenText.debug.text = 'Debug:\nfps: ' + this.game.time.fps + '\nplayerTurn: ' + this.playerTurn + '\nduelState: ' + this.duelState
 
 	}
@@ -275,6 +279,43 @@ class Duel extends Phaser.State {
 		}
 	}
 
+	_victoryCheck () {
+		let check = false
+		let victorious = ''
+		let style1 = { font: '128px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
+		let style2 = { font: '64px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
+
+		if ((this.game.player1.lifePoint <= 0) && (this.game.player2.lifePoint <= 0)) {
+			//égalité
+			return
+		}
+		else if (this.game.player1.lifePoint <= 0) {
+			//victoire 2
+			check = true
+			victorious = 'player2'
+		}
+		else if (this.game.player2.lifePoint <= 0) {
+			check = true
+			victorious = 'player1'
+		}
+		else if ((this.game.player1.currentDeck.length === 0) && (this.playerTurn === 'player1') && (this.duelState === 'DRAW_PHASE')) {
+			check = true
+			victorious = 'player2'
+		}
+		else if ((this.game.player1.currentDeck.length === 0) && (this.playerTurn === 'player1') && (this.duelState === 'DRAW_PHASE')) {
+			check = true
+			victorious = 'player1'
+		}
+
+		if (check) {
+			this.duelState = 'BLOCKED'
+			this.stateStatus = 'NOT_INIT'
+
+			this.onScreenText.victoryMessage = this.game.add.text(this.world.centerX, this.world.centerY,  'VICTOIRE', style1)
+			this.onScreenText.victoryMessage2 = this.game.add.text(this.world.centerX, this.world.centerY + 128,  'victoire de : ' + victorious === 'player1' ? 'player 1' : 'player 2', style2)
+		}
+	}
+
 	_inputManager () {
 		if ((this.duelState === 'DRAW_PHASE') || (this.duelState === 'END_TURN') || (this.duelState === 'BLOCKED'))
 			this._blockInput()
@@ -365,6 +406,8 @@ class Duel extends Phaser.State {
 	}
 
 	_gameLogicLoop () {
+		this._victoryCheck()
+
 		if (this.duelState === 'DRAW_PHASE') {
 			if (this.stateStatus === 'NOT_INIT')
 				this._initDrawPhase()
@@ -384,6 +427,10 @@ class Duel extends Phaser.State {
 		else if (this.duelState === 'END_TURN') {
 			if (this.stateStatus === 'NOT_INIT')
 				this._initEndTurn ()
+		}
+		else if (this.duelState === 'BLOCKED') {
+			if (this.stateStatus === 'NOT_INIT')
+				this._inputManager()
 		}
 
 		GameLogic.deadCard(this.player1TerrainGroup)
