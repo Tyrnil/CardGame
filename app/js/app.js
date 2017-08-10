@@ -4,7 +4,7 @@ const Duel = require('./js/Duel')
 const DuelLoading = require('./js/DuelLoading')
 
 $(() => {
-	game = new Phaser.Game(2560, 1440, Phaser.CANVAS, 'main')
+	game = new Phaser.Game(2560, 1440, Phaser.CANVAS, 'main', null, null, false)
 
 	game.player1 = new Player()
 	game.player2 = new Player()

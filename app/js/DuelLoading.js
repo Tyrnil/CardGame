@@ -1,6 +1,7 @@
 const fs = require('fs')
 const Card = require('./Card')
 const utils = require('./utils')
+const fonts = require('./fonts')
 
 class DuelLoading extends Phaser.State {
 	init () {
@@ -17,7 +18,7 @@ class DuelLoading extends Phaser.State {
 
 		this._load_deck_imgs(this.game.player1.deck, this.game.player2.deck)
 
-		this.game.load.spritesheet('button', '../cards/img/button.png', 400, 200)
+		this.game.load.spritesheet('button_300x150', './assets/button_300x150.png', 300, 150)
 	}
 
 	create () {
@@ -25,9 +26,7 @@ class DuelLoading extends Phaser.State {
 
 		utils.createLinearGradient(this.game, '#ff9966', '#ff5e62')
 
-		let style = { font: '72px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
-
-		let text = this.game.add.text(0, 0,  'LOADING', style)
+		let text = this.game.add.text(0, 0,  'LOADING', fonts.pixel128px)
 		text.setTextBounds(0, (this.game.height/2) - 100, this.game.width, 100)
 
 		this.game.player1.cardDeck = this._instanciate_cards(this.game.player1.cardDeck, "player1")

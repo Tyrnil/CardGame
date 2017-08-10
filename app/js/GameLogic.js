@@ -49,12 +49,12 @@ function invokBySacrifice (card, selectedCard){
 		selectedCard[i].state = 'DEAD'
 	}
 	if (bonus === selectedCard.length){
-		card.attack += (card.attack * (20/100))
-		card.currentHealt += (card.currentHealt * (20/100))
+		card.attack += ((card.attack * 20) / 100)
+		card.currentHealth += ((card.currentHealth * 20) / 100)
 	}
 	else if (malus > 0){
-		card.attack -= (card.attack * (10 * malus/100))
-		card.currentHealt -= (card.currentHealt * (10 * malus/100))
+		card.attack -= ((card.attack * (10 * malus)) / 100)
+		card.currentHealth -= ((card.currentHealth * (10 * malus)) / 100)
 	}
 	return energy;
 }
@@ -78,9 +78,9 @@ function attackPhase(cardAtk, cardDef){
 		let mult = typeCheck(cardAtk.type, cardDef.type);
 		let atk = cardAtk.attack;
 		if (mult === 1)
-			atk += (atk * (20/100));
+			atk += ((atk * 20) / 100);
 		else if (mult === -1)
-			atk += (atk * (20/100));
+			atk -= ((atk * 20) / 100);
 		cardDef.currentHealth -= atk;
 
 		if (cardDef.currentHealth > 0)
@@ -89,6 +89,12 @@ function attackPhase(cardAtk, cardDef){
 			return sacrificeCheck(cardDef) + 1
 	}
 	return 0
+}
+
+function directAttack (card, player) {
+	if (player.cardInPlay.length === 0) {
+		player.lifePoint -= card.attack
+	}
 }
 
 function deadCard(group){
@@ -122,5 +128,6 @@ module.exports = {
 	"invok" : invok,
 	"sacrificeCheck" : sacrificeCheck,
 	"attackPhase" : attackPhase,
+	'directAttack': directAttack,
 	"deadCard" : deadCard
 }

@@ -22,6 +22,17 @@ function createDummySprite (game, width, height, x, y) {
 	return sprite
 }
 
+function createRectangle (game, x, y, width, height, color, alpha = 1) {
+	let graphics = game.add.graphics(x, y)
+
+	console.log(alpha)
+
+	graphics.beginFill(color, alpha)
+	graphics.drawRect(x, y, width, height)
+
+	return graphics
+}
+
 function checkOverlap (spriteA, spriteB) {
 	let boundsA = spriteA.getBounds()
     let boundsB = spriteB.getBounds()
@@ -36,6 +47,7 @@ function getRandomArbitrary (min, max) {
 module.exports = {
 	'createLinearGradient': createLinearGradient,
 	'createDummySprite': createDummySprite,
+	'createRectangle': createRectangle,
 	'checkOverlap': checkOverlap,
 	'getRandomArbitrary': getRandomArbitrary
 }

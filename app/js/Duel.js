@@ -1,5 +1,6 @@
 const utils = require('./utils')
 const GameLogic = require('./GameLogic')
+const fonts = require('./fonts')
 
 class Duel extends Phaser.State {
 
@@ -13,6 +14,7 @@ class Duel extends Phaser.State {
 	}
 
 	create () {
+		this.game.stage.smoothed = false
 		utils.createLinearGradient(this.game, '#ff9966', '#ff5e62')
 
 		//Ajout des sprites des cartes au jeu et add les listener
@@ -53,7 +55,7 @@ class Duel extends Phaser.State {
 		this._initCard(this.game.player1.drawCard(), this.player1HandGroup)
 		this._initCard(this.game.player2.drawCard(), this.player2HandGroup)
 
-		this.game.add.button(2160, this.game.world.centerY, 'button', this._onEndTurnButton, this, 0, 1, 2)
+		this.game.add.button(2240, this.game.world.centerY, 'button_300x150', this._onEndTurnButton, this, 1, 0, 2)
 	}
 
 	update () {
@@ -89,22 +91,18 @@ class Duel extends Phaser.State {
 	}
 
 	_createGameText () {
-		let style = { font: '32px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
-
 		this.onScreenText = {
-			player1Info: this.game.add.text(20, this.game.height - 52,  'Player1: ' + this.game.player1.name, style),
-			player1Energy: this.game.add.text(this.game.width - 250, this.game.height - 52, 'Energy: ' + this.game.player1.energy, style),
-			player1LifePoint: this.game.add.text(this.game.width - 750, this.game.height - 52, 'Life Point: ' + this.game.player1.lifePoint, style),
-			player2Info: this.game.add.text(20, 20,  'Player2: ' + this.game.player2.name, style),
-			player2Energy: this.game.add.text(this.game.width - 250, 20, 'Energy: ' + this.game.player2.energy, style),
-			player2LifePoint: this.game.add.text(this.game.width - 750, 20, 'Life Point: ' + this.game.player2.lifePoint, style),
-			debug: this.game.add.text(20, 250, 'Debug:\nfps: ' + this.game.time.fps + '\nplayerTurn: ' + this.playerTurn + '\nduelState: ' + this.duelState, style)
+			player1Info: this.game.add.text(20, this.game.height - 52,  'Player1: ' + this.game.player1.name, fonts.pixel32px),
+			player1Energy: this.game.add.text(this.game.width - 250, this.game.height - 52, 'Energy: ' + this.game.player1.energy, fonts.pixel32px),
+			player1LifePoint: this.game.add.text(this.game.width - 750, this.game.height - 52, 'Life Point: ' + this.game.player1.lifePoint, fonts.pixel32px),
+			player2Info: this.game.add.text(20, 20,  'Player2: ' + this.game.player2.name, fonts.pixel32px),
+			player2Energy: this.game.add.text(this.game.width - 250, 20, 'Energy: ' + this.game.player2.energy, fonts.pixel32px),
+			player2LifePoint: this.game.add.text(this.game.width - 750, 20, 'Life Point: ' + this.game.player2.lifePoint, fonts.pixel32px),
+			debug: this.game.add.text(20, 250, 'Debug:\nfps: ' + this.game.time.fps + '\nplayerTurn: ' + this.playerTurn + '\nduelState: ' + this.duelState, fonts.pixel32px)
 		}
 	}
 
 	_updateGameText () {
-		let style = { font: '32px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
-
 		this.onScreenText.player1Energy.text = 'Energy: ' + this.game.player1.energy
 		this.onScreenText.player1LifePoint.text = 'Life Point: ' + this.game.player1.lifePoint
 		this.onScreenText.player2Energy.text = 'Energy: ' + this.game.player2.energy
@@ -121,13 +119,11 @@ class Duel extends Phaser.State {
 	}
 
 	_createCardText (card) {
-		let style = { font: '24px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
-
-		card.attackText = this.game.add.text(card.world.x, 0, card.attack, style)
+		card.attackText = this.game.add.text(card.world.x, 0, card.attack, fonts.pixel24px)
 		card.attackText.stroke = '#000000';
 		card.attackText.strokeThickness = 4;
 
-		card.currentHealthText = this.game.add.text(card.world.x + (card.width / 2), 0, card.currentHealth, style)
+		card.currentHealthText = this.game.add.text(card.world.x + (card.width / 2), 0, card.currentHealth, fonts.pixel24px)
 		card.currentHealthText.stroke = '#000000';
 		card.currentHealthText.strokeThickness = 4;
 	}
@@ -174,7 +170,9 @@ class Duel extends Phaser.State {
 			}
 			else if (card.state === 'PLAY') {
 				if (card.player === 'player1') {
-					if (utils.checkOverlap(card, this.player2TerrainGroup)) {
+					if (utils.checkOverlap(card, this.game.handPlayer2HitBox))
+						GameLogic.directAttack(card, this.game.player2)
+					else if (utils.checkOverlap(card, this.player2TerrainGroup)) {
 						this.duelState = 'BATTLE_PHASE'
 						this.stateStatus = 'NOT_INIT'
 						this.cardAttacking = card
@@ -182,7 +180,9 @@ class Duel extends Phaser.State {
 					this.player1TerrainGroup.add(card)
 				}
 				else if (card.player === 'player2') {
-					if (utils.checkOverlap(card, this.player1TerrainGroup)) {
+					if (utils.checkOverlap(card, this.game.handPlayer1HitBox))
+						GameLogic.directAttack(card, this.game.player1)
+					else if (utils.checkOverlap(card, this.player1TerrainGroup)) {
 						this.duelState = 'BATTLE_PHASE'
 						this.stateStatus = 'NOT_INIT'
 						this.cardAttacking = card
@@ -261,10 +261,10 @@ class Duel extends Phaser.State {
 	_updateCardText (group) {
 		for (let i in group.children) {
 			group.children[i].currentHealthText.text = group.children[i].currentHealth
-
 			group.children[i].currentHealthText.x = group.children[i].world.x + (group.children[i].width / 2)
 			group.children[i].currentHealthText.y = group.children[i].world.y
 
+			group.children[i].attackText.text = group.children[i].attack
 			group.children[i].attackText.x = group.children[i].world.x
 			group.children[i].attackText.y = group.children[i].world.y
 		}
@@ -282,37 +282,42 @@ class Duel extends Phaser.State {
 	_victoryCheck () {
 		let check = false
 		let victorious = ''
-		let style1 = { font: '128px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
-		let style2 = { font: '64px Pixel', fill: '#ecf0f1', boundsAlignH: 'center', boundsAlignV: 'middle' }
 
-		if ((this.game.player1.lifePoint <= 0) && (this.game.player2.lifePoint <= 0)) {
-			//égalité
-			return
-		}
-		else if (this.game.player1.lifePoint <= 0) {
-			//victoire 2
-			check = true
-			victorious = 'player2'
-		}
-		else if (this.game.player2.lifePoint <= 0) {
-			check = true
-			victorious = 'player1'
-		}
-		else if ((this.game.player1.currentDeck.length === 0) && (this.playerTurn === 'player1') && (this.duelState === 'DRAW_PHASE')) {
-			check = true
-			victorious = 'player2'
-		}
-		else if ((this.game.player1.currentDeck.length === 0) && (this.playerTurn === 'player1') && (this.duelState === 'DRAW_PHASE')) {
-			check = true
-			victorious = 'player1'
+		if (this.duelState !== 'GAME_OVER') {
+			if ((this.game.player1.lifePoint <= 0) && (this.game.player2.lifePoint <= 0)) {
+				//égalité
+				return
+			}
+			else if (this.game.player1.lifePoint <= 0) {
+				check = true
+				victorious = 'player2'
+			}
+			else if (this.game.player2.lifePoint <= 0) {
+				check = true
+				victorious = 'player1'
+			}
+			else if ((this.game.player1.currentDeck.length === 0) && (this.playerTurn === 'player1') && (this.duelState === 'DRAW_PHASE') && (this.stateStatus === 'NOT_INIT')) {
+				check = true
+				victorious = 'player2'
+			}
+			else if ((this.game.player2.currentDeck.length === 0) && (this.playerTurn === 'player2') && (this.duelState === 'DRAW_PHASE') && (this.stateStatus === 'NOT_INIT')) {
+				check = true
+				victorious = 'player1'
+			}
 		}
 
 		if (check) {
-			this.duelState = 'BLOCKED'
+			this.duelState = 'GAME_OVER'
 			this.stateStatus = 'NOT_INIT'
 
-			this.onScreenText.victoryMessage = this.game.add.text(this.world.centerX, this.world.centerY,  'VICTOIRE', style1)
-			this.onScreenText.victoryMessage2 = this.game.add.text(this.world.centerX, this.world.centerY + 128,  'victoire de : ' + victorious === 'player1' ? 'player 1' : 'player 2', style2)
+			utils.createRectangle(this.game, 0, 0, this.game.width, this.game.height, '0x000000', 0.7)
+
+			let message1 = this.game.add.text(0, 0, 'VICTOIRE', fonts.pixel128px)
+			message1.setTextBounds(0, 0, this.game.width, this.game.height)
+			let message2 = this.game.add.text(0, 0, 'victoire de ' + victorious, fonts.pixel64px)
+			message2.setTextBounds(0, 128, this.game.width, this.game.height)
+			let message3 = this.game.add.text(0, 0, 'Cliquez pour continuer', fonts.pixel64px)
+			message3.setTextBounds(0, 512, this.game.width, this.game.height)
 		}
 	}
 
@@ -428,7 +433,7 @@ class Duel extends Phaser.State {
 			if (this.stateStatus === 'NOT_INIT')
 				this._initEndTurn ()
 		}
-		else if (this.duelState === 'BLOCKED') {
+		else if ((this.duelState === 'BLOCKED') || (this.duelState === 'GAME_OVER')) {
 			if (this.stateStatus === 'NOT_INIT')
 				this._inputManager()
 		}

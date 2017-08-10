@@ -3,10 +3,10 @@ class Card extends Phaser.Sprite {
 		super(game, 0, 0, img)
 		this.id = id
 		this.name = name
-		this.attack = attack
-		this.health = health
-		this.currentHealth = health
-		this.rank = rank
+		this.attack = parseInt(attack)
+		this.health = parseInt(health)
+		this.currentHealth = parseInt(health)
+		this.rank = parseInt(rank)
 		this.type = type
 		this.nature = nature
 		this.img = imgName
