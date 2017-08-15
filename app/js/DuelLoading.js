@@ -10,15 +10,7 @@ class DuelLoading extends Phaser.State {
 	}
 
 	preload () {
-		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		this.game.scale.pageAlignHorizontally = true;
-		this.game.scale.pageAlignVertically = true;
-
-		console.log('Canvas WIDTH: ',$('#main').width(), ' - HEIGHT: ', $('#main').height(), '\nGame WIDTH: ', this.game.width, ' - HEIGHT: ', this.game.height)
-
 		this._load_deck_imgs(this.game.player1.deck, this.game.player2.deck)
-
-		this.game.load.spritesheet('button_300x150', './assets/button_300x150.png', 300, 150)
 	}
 
 	create () {

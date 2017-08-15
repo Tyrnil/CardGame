@@ -41,7 +41,11 @@ function checkOverlap (spriteA, spriteB) {
 }
 
 function getRandomArbitrary (min, max) {
-	return Math.random() * (max - min) + min
+	return Math.floor(Math.random() * (max - min) + min)
+}
+
+function RGBtoHEX (r, g, b) {
+	return ((1 << 24) + (Math.floor(r) << 16) + (Math.floor(g) << 8) + Math.floor(b)).toString(16).substr(1)
 }
 
 module.exports = {
@@ -49,5 +53,6 @@ module.exports = {
 	'createDummySprite': createDummySprite,
 	'createRectangle': createRectangle,
 	'checkOverlap': checkOverlap,
-	'getRandomArbitrary': getRandomArbitrary
+	'getRandomArbitrary': getRandomArbitrary,
+	'RGBtoHEX': RGBtoHEX
 }

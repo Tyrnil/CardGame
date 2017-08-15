@@ -28,7 +28,7 @@ class Player {
 		if (this.currentDeck.length === 0)
 			return null
 
-		let pull = Math.floor(utils.getRandomArbitrary(0, this.currentDeck.length))
+		let pull = utils.getRandomArbitrary(0, this.currentDeck.length)
 
 		let card = this.currentDeck[pull]
 

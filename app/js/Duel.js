@@ -32,8 +32,8 @@ class Duel extends Phaser.State {
 		}
 
 		//Créer les zones de jeu
-		this.game.handPlayer1HitBox = utils.createDummySprite(this.game, 2560, 300, 0, 1440 - 300)
-		this.game.handPlayer2HitBox = utils.createDummySprite(this.game, 2560, 300, 0, 0)
+		this.handPlayer1HitBox = utils.createDummySprite(this.game, 2560, 300, 0, 1440 - 300)
+		this.handPlayer2HitBox = utils.createDummySprite(this.game, 2560, 300, 0, 0)
 
 		//Main des joueurs
 		this.player1HandGroup = this.game.add.group()
@@ -138,7 +138,7 @@ class Duel extends Phaser.State {
 
 		if (this.duelState === 'MAIN_PHASE') {
 			if (card.state === 'HAND') {
-				if (!utils.checkOverlap(card, this.game.handPlayer1HitBox) && !utils.checkOverlap(card, this.game.handPlayer2HitBox)){
+				if (!utils.checkOverlap(card, this.handPlayer1HitBox) && !utils.checkOverlap(card, this.handPlayer2HitBox)){
 					if (GameLogic.checkInvokCard(card, player)) {
 						if ((card.nature === 'magic') || (card.rank <= 2)) {
 							if (card.player === 'player1') {
@@ -170,7 +170,7 @@ class Duel extends Phaser.State {
 			}
 			else if (card.state === 'PLAY') {
 				if (card.player === 'player1') {
-					if (utils.checkOverlap(card, this.game.handPlayer2HitBox))
+					if (utils.checkOverlap(card, this.handPlayer2HitBox))
 						GameLogic.directAttack(card, this.game.player2)
 					else if (utils.checkOverlap(card, this.player2TerrainGroup)) {
 						this.duelState = 'BATTLE_PHASE'
@@ -180,7 +180,7 @@ class Duel extends Phaser.State {
 					this.player1TerrainGroup.add(card)
 				}
 				else if (card.player === 'player2') {
-					if (utils.checkOverlap(card, this.game.handPlayer1HitBox))
+					if (utils.checkOverlap(card, this.handPlayer1HitBox))
 						GameLogic.directAttack(card, this.game.player1)
 					else if (utils.checkOverlap(card, this.player1TerrainGroup)) {
 						this.duelState = 'BATTLE_PHASE'
@@ -248,7 +248,6 @@ class Duel extends Phaser.State {
 			this.duelState = 'MAIN_PHASE'
 			this.stateStatus = 'NOT_INIT'
 		}
-
 	}
 
 	_onEndTurnButton () {
@@ -318,6 +317,10 @@ class Duel extends Phaser.State {
 			message2.setTextBounds(0, 128, this.game.width, this.game.height)
 			let message3 = this.game.add.text(0, 0, 'Cliquez pour continuer', fonts.pixel64px)
 			message3.setTextBounds(0, 512, this.game.width, this.game.height)
+
+			this.game.input.onDown.add(function () {
+				this.game.state.start('mainMenu')
+			}, this)
 		}
 	}
 
