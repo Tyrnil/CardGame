@@ -1,19 +1,21 @@
-const utils = require('./utils')
-const fonts = require('./fonts')
-const colors = require('./colors')
+const {ipcRenderer} = require('electron')
+const utils = require('../utils')
+const fonts = require('../fonts')
+const colors = require('../colors')
 
 class MainMenu extends Phaser.State {
 	create () {
 		this.game.stage.backgroundColor = '#ff9966'
 
-		utils.createLinearGradient(this.game, '#ff9966', '#ff5e62')
+		utils.createRadialGradient(this.game, '#ff9966', '#ff5e62')
 
 		this.title = this.game.add.text(0, 0, 'TROUVE UN TITRE', fonts.pixel128px)
 		this.title.setTextBounds(0, 0, this.game.width, this.game.height / 2.5)
 
 		this.buttonGroup = this.game.add.group()
 		this.buttonGroup.add(this._createButton(this.game.world.centerX - (200), this.game.world.centerY - 100, 'button_400x100_dark_grey', 'Jouer', 'play'))
-		this.buttonGroup.add(this._createButton(this.game.world.centerX - (200), this.game.world.centerY + 100, 'button_400x100_dark_grey', 'Quitter', 'quit'))
+		this.buttonGroup.add(this._createButton(this.game.world.centerX - (200), this.game.world.centerY + 100, 'button_400x100_dark_grey', 'Carte Manager', 'cardManager'))
+		this.buttonGroup.add(this._createButton(this.game.world.centerX - (200), this.game.world.centerY + 300, 'button_400x100_dark_grey', 'Quitter', 'quit'))
 
 		this._titleColorChange()
 	}
@@ -30,6 +32,8 @@ class MainMenu extends Phaser.State {
 	_buttonClick (button, pointer) {
 		if (button.label === 'play')
 			this._onPlay()
+		else if (button.label === 'cardManager')
+			ipcRenderer.send('openCardManager')
 		else if (button.label === 'quit')
 			this._onQuit()
 	}

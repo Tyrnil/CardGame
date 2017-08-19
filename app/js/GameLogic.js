@@ -81,6 +81,7 @@ function attackPhase(cardAtk, cardDef){
 			atk += ((atk * 20) / 100);
 		else if (mult === -1)
 			atk -= ((atk * 20) / 100);
+
 		cardDef.currentHealth -= atk;
 
 		if (cardDef.currentHealth > 0)
@@ -97,10 +98,10 @@ function directAttack (card, player) {
 	}
 }
 
-function deadCard(group){
-	for (let i in group.children){
-		if (group.children[i].currentHealt <= 0)
-			group.children[i].state = "DEAD";
+function deadCard (list){
+	for (let i in list){
+		if (list[i].currentHealth <= 0)
+			list[i].state = "DEAD";
 	}
 }
 

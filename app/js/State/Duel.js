@@ -1,6 +1,6 @@
-const utils = require('./utils')
-const GameLogic = require('./GameLogic')
-const fonts = require('./fonts')
+const utils = require('../utils')
+const GameLogic = require('../gameLogic')
+const fonts = require('../fonts')
 
 class Duel extends Phaser.State {
 
@@ -441,8 +441,8 @@ class Duel extends Phaser.State {
 				this._inputManager()
 		}
 
-		GameLogic.deadCard(this.player1TerrainGroup)
-		GameLogic.deadCard(this.player2TerrainGroup)
+		GameLogic.deadCard(this.game.player1.cardInPlay)
+		GameLogic.deadCard(this.game.player2.cardInPlay)
 
 		this.game.player1.checkDeadCards()
 		this.game.player2.checkDeadCards()

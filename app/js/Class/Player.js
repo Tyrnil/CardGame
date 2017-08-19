@@ -1,4 +1,4 @@
-const utils = require('./utils')
+const utils = require('../utils')
 
 class Player {
 	constructor (deck = ['1', '1', '1', '2'], name = 'Jean') {
@@ -50,8 +50,8 @@ class Player {
 
 	checkDeadCards () {
 		for (let i in this.cardInPlay) {
-			if (this.cardInPlay[i].state === "DEAD") {
-				this.deadCards.push(this.cardInPlay[i]);
+			if (this.cardInPlay[i].state === 'DEAD') {
+				this.deadCards.push(this.cardInPlay[i])
 				this.cardInPlay.splice(i, 1)
 			}
 		}

@@ -1,0 +1,50 @@
+.no-app-scroll {
+	-webkit-app-region: no-drag;
+}
+
+#content, .btn, .tab-item, a, input, select {
+	-webkit-app-region: no-drag;
+}
+
+.window-ctrl-buttons {
+	-webkit-app-region: no-drag;
+	position: absolute;
+	z-index: 101;
+	top: 0px;
+	right: 8px;
+}
+
+#window-ctrl-button-close, #window-ctrl-button-maximize, #window-ctrl-button-minimize {
+	font-size: 20px;
+}
+
+#window-ctrl-button-close:hover, #window-ctrl-button-maximize:hover, #window-ctrl-button-minimize:hover {
+	filter: brightness(80%);
+}
+
+#window-ctrl-button-close {
+	color: #fc605b;
+}
+
+#window-ctrl-button-maximize {
+	color: #fdbc40;
+}
+
+#window-ctrl-button-minimize {
+	color: #34c84a;
+}
+
+#content {
+	display: none;
+	overflow-x: hidden;
+}
+
+#popup {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.3);
+}

@@ -1,6 +1,6 @@
 function createLinearGradient (game, color1, color2) {
 	let myBitmap = game.add.bitmapData(game.width, game.height)
-	let grd = myBitmap.context.createLinearGradient(0, 0, 0, 500)
+	let grd = myBitmap.context.createLinearGradient(0, 0, 0, game.height)
 
 	grd.addColorStop(0, color1)
 	grd.addColorStop(1, color2)
@@ -9,6 +9,21 @@ function createLinearGradient (game, color1, color2) {
 	myBitmap.context.fillRect(0, 0, game.width, game.height)
 
 	game.add.sprite(0, 0, myBitmap)
+}
+
+function createRadialGradient (game, color1, color2) {
+	bitmap = game.add.bitmapData(game.width, game.height)
+	let grd = bitmap.context.createRadialGradient(game.width/2, game.height/2, 0, game.width/2, game.height/2, 1000)
+
+	grd.addColorStop(0, color1)
+	grd.addColorStop(1, color2)
+
+	bitmap.context.fillStyle = grd
+	bitmap.context.fillRect(0, 0, game.width, game.height)
+
+	game.add.sprite(0, 0, bitmap)
+
+	return bitmap
 }
 
 function createDummySprite (game, width, height, x, y) {
@@ -24,8 +39,6 @@ function createDummySprite (game, width, height, x, y) {
 
 function createRectangle (game, x, y, width, height, color, alpha = 1) {
 	let graphics = game.add.graphics(x, y)
-
-	console.log(alpha)
 
 	graphics.beginFill(color, alpha)
 	graphics.drawRect(x, y, width, height)
@@ -50,6 +63,7 @@ function RGBtoHEX (r, g, b) {
 
 module.exports = {
 	'createLinearGradient': createLinearGradient,
+	'createRadialGradient': createRadialGradient,
 	'createDummySprite': createDummySprite,
 	'createRectangle': createRectangle,
 	'checkOverlap': checkOverlap,

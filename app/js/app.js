@@ -1,9 +1,9 @@
 let game
-const Player = require('./js/Player')
-const Duel = require('./js/Duel')
-const DuelLoading = require('./js/DuelLoading')
-const MainMenu = require('./js/MainMenu')
-const Boot = require('./js/Boot')
+const Player = require('./js/Class/Player')
+const Duel = require('./js/State/Duel')
+const DuelLoading = require('./js/State/DuelLoading')
+const MainMenu = require('./js/State/MainMenu')
+const Boot = require('./js/State/Boot')
 
 $(() => {
 	game = new Phaser.Game(2560, 1440, Phaser.CANVAS, 'main', null, null, false)

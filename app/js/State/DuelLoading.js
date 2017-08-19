@@ -1,10 +1,11 @@
 const fs = require('fs')
-const Card = require('./Card')
-const utils = require('./utils')
-const fonts = require('./fonts')
+const Card = require('../Class/Card')
+const utils = require('../utils')
+const fonts = require('../fonts')
 
 class DuelLoading extends Phaser.State {
 	init () {
+		this.startTime = new Date().getTime()
 		this.game.player1.cardDeck = DuelLoading._load_cards_from_deck(this.game.player1.deck)
 		this.game.player2.cardDeck = DuelLoading._load_cards_from_deck(this.game.player2.deck)
 	}
@@ -24,13 +25,16 @@ class DuelLoading extends Phaser.State {
 		this.game.player1.cardDeck = this._instanciate_cards(this.game.player1.cardDeck, "player1")
 		this.game.player2.cardDeck = this._instanciate_cards(this.game.player2.cardDeck, "player2")
 
-		setTimeout(() => {
+		this.endTime = new Date().getTime()
+
+		console.log('Loading done in : ' + (this.endTime - this.startTime) + ' ms')
+
+		if (this.endTime - this.startTime < 1000)
+			setTimeout(() => {
+				this.game.state.start('duel')
+			}, 1000)
+		else
 			this.game.state.start('duel')
-		}, 2000)
-	}
-
-	update () {
-
 	}
 
 	static _load_cards_from_deck (deck) {

@@ -1,0 +1,52 @@
+[
+	{
+		"id": "1",
+		"name": "Kebab",
+		"attack": "1200",
+		"health": "1400",
+		"rank": "3",
+		"type": "Bouffe",
+		"nature": "monster",
+		"img": "cards/img/card_1.png"
+	},
+	{
+		"id": "2",
+		"name": "Salade",
+		"attack": "600",
+		"health": "600",
+		"rank": "1",
+		"type": "Bouffe",
+		"nature": "monster",
+		"img": "\\cards\\img\\card_2.png"
+	},
+	{
+		"id": "3",
+		"name": "default",
+		"attack": "500",
+		"health": "0",
+		"rank": "1",
+		"type": "Bouffe",
+		"nature": "monster",
+		"img": "/cards/img/card_default.png"
+	},
+	{
+		"id": "4",
+		"name": "default",
+		"attack": "600",
+		"health": "0",
+		"rank": "1",
+		"type": "Bouffe",
+		"nature": "monster",
+		"img": "/cards/img/card_default.png"
+	},
+	{
+		"id": "5",
+		"name": "default",
+		"attack": "700",
+		"health": "0",
+		"rank": "1",
+		"type": "Bouffe",
+		"nature": "monster",
+		"img": "/cards/img/card_default.png"
+	}
+]

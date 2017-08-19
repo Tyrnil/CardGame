@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="./lib/css/photon.min.css">
+		<link rel="stylesheet" type="text/css" href="./css/cardManager.css">
+
+		<script>window.$ = window.jQuery = require('./lib/js/jquery.min.js')</script>
+		<script src="./js/cardManager/start.js"></script>
+	</head>
+	<body>
+		<div class="window">
+			<!--Buttons-->
+			<div class="window-ctrl-buttons">
+				<a id="window-ctrl-button-minimize" onclick="require('./js/CardManager/navigation').minimizeWindow()">
+					<span class="icon icon-record"></span>
+				</a>
+				<a id="window-ctrl-button-maximize" onclick="require('./js/CardManager/navigation').maximizeWindow()">
+					<span class="icon icon-record"></span>
+				</a>
+				<a id="window-ctrl-button-close" onclick="require('./js/CardManager/navigation').closeWindow()">
+					<span class="icon icon-record"></span>
+				</a>
+			</div>
+			<!--Header-->
+			<header class="toolbar toolbar-header no-app-scroll">
+				<h1 id="window-title" class="title">Carte Manager</h1>
+
+				<div class="toolbar-actions">
+					<div class="btn-group">
+						<button class="btn btn-large btn-default" onclick="require('./js/CardManager/file').save()">
+							<span class="icon icon-floppy"></span>
+						</button>
+						<button class="btn btn-large btn-default" onclick="require('./js/CardManager/navigation').onNewCard()">
+							<span class="icon icon-docs"></span>
+						</button>
+						<button class="btn btn-large btn-default" onclick="require('./js/CardManager/navigation').onDestroyCard()">
+							<span class="icon icon-trash"></span>
+						</button>
+						<button class="btn btn-large btn-default">
+							<span class="icon icon-arrows-ccw"></span>
+						</button>
+					</div>
+				</div>
+			</header>
+			<!--Content-->
+			<div class="window-content">
+				<div class="pane-group">
+					<!--Sidebar-->
+					<div class="pane pane-sm sidebar">
+						<nav class="nav-group" id="sidebarList">
+						</nav>
+					</div>
+					<!--Content-->
+					<div class="pane">
+						<div class="tab-group" id="tabList">
+						</div>
+						<div id="content">
+							<div>
+								<img id="cardImg" src="../cards/img/card_1.png"/>
+							</div>
+							<div class="form-control">
+								<button id="cardImgUrl" class="btn btn-default">
+									<span class="icon icon-folder icon-text"></span>
+									File
+								</button>
+							</div>
+							<div class="form-control">
+								<label>Nom de la carte</label>
+								<input id="cardName" type="text" placeholder="Nom" class="form-control"></input>
+							</div>
+							<div class="form-control">
+								<label>Nature de la carte</label>
+								<select id="cardNature" class="form-control">
+									<option value="monster" selected>Monstre</option>
+									<!--<option value="magic">Magique</option>-->
+								</select>
+							</div>
+							<div class="form-control">
+								<label>Attaque de la carte</label>
+								<input id="cardAttack" type="text" placeholder="Nom" class="form-control"></input>
+							</div>
+							<div class="form-control">
+								<label>Points de vie de la carte</label>
+								<input id="cardHealth" type="text" placeholder="Nom" class="form-control"></input>
+							</div>
+							<div class="form-control">
+								<label>Type de la carte</label>
+								<select id="cardType" class="form-control">
+									<option value="Bouffe" selected>Bouffe</option>
+									<option value="Sport">Sport</option>
+									<option value="Culture">Culture</option>
+									<option value="Internet">Internet</option>
+								</select>
+							</div>
+							<div class="form-control">
+								<label>Rang de la carte</label>
+								<select id="cardRank" class="form-control">
+									<option value="1" selected>1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="toolbar toolbar-footer">
+				<h1 id="footer-text" class="title"></h1>
+			</footer>
+		</div>
+		<div id="popup">
+		</div>
+	</body>
+</html>
